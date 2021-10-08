@@ -1,10 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import VideoJS from './VideoJS'
 
 export default function App() {
   let playerRef = React.useRef(null);
+
+  let [isIVQVisible, setIVQVisible] = useState(false);
 
   let videoJsOptions = { // lookup the options in the docs for more options
     autoplay: false,
@@ -32,7 +34,8 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />
+      <VideoJS isIVQVisible={isIVQVisible} options={videoJsOptions} onReady={handlePlayerReady} />
+      <Button title="Toggle IVQ" onPress={() => setIVQVisible(s => !s)} />
       <Text>Open up App.js to start working on your app!</Text>
       <StatusBar style="auto" />
     </View>

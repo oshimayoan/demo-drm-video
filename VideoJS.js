@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import videojs from "video.js";
 
 import 'videojs-contrib-eme';
 
 import "video.js/dist/video-js.css";
 
-export const VideoJS = ( props ) => {
+export default function VideoJS(props) {
   let [status, setStatus] = useState({ isPlaying: false });
 
-  const videoRef = React.useRef(null);
-  const playerRef = React.useRef(null);
-  const { options, onReady } = props;
+  let videoRef = React.useRef(null);
+  let playerRef = React.useRef(null);
+  let { isIVQVisible, options, onReady } = props;
 
   React.useEffect(() => {
     // make sure Video.js player is only initialized once
@@ -19,7 +19,7 @@ export const VideoJS = ( props ) => {
       const videoElement = videoRef.current;
       if (!videoElement) return;
 
-      const player = playerRef.current = videojs(videoElement, options, () => {
+      let player = playerRef.current = videojs(videoElement, options, () => {
         console.log("player is ready");
         onReady && onReady(player);
       });
@@ -52,19 +52,22 @@ export const VideoJS = ( props ) => {
   return (
     <div data-vjs-player>
       <video ref={videoRef} className="video-js vjs-big-play-centered" />
+      {/* NOTE: IVQ overlay example */}
+      {isIVQVisible && <View style={styles.ivq}>
+        <Text>Howdy world!</Text>
+      </View>}
     </div>
-
-    //   <div data-vjs-player>
-    //       {/* <TouchableOpacity activeOpacity={0.9} onPress={() => {
-    //   if (!!playerRef.current) {
-    //     status.isPlaying ? playerRef.current.pause() : playerRef.current.play();
-    //     setStatus(s => ({ ...s, isPlaying: !s.isPlaying }));
-    //   }
-    // }}> */}
-    //     <video ref={videoRef} className="video-js vjs-big-play-centered" />
-    // {/* </TouchableOpacity> */}
-    //   </div>
   );
 }
 
-export default VideoJS;
+const styles = StyleSheet.create({
+  ivq: {
+    backgroundColor: 'skyblue', 
+    zIndex: 10, 
+    position: 'absolute', 
+    bottom: 30, 
+    top: 0, 
+    left: 0, 
+    right: 0,
+  }
+})
