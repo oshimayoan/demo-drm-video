@@ -7,7 +7,7 @@ export default function App() {
   let playerRef = React.useRef(null);
 
   let videoJsOptions = { // lookup the options in the docs for more options
-    autoplay: true,
+    autoplay: false,
     controls: true,
     responsive: true,
     fluid: true,

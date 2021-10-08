@@ -19,7 +19,8 @@
     "react-native-screens": "~3.4.0",
     "react-native-unimodules": "0.14.10",
     "react-native-web": "~0.13.12",
-    "video.js": "^7.15.4"
+    "video.js": "^7.15.4",
+    "videojs-contrib-eme": "^3.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
