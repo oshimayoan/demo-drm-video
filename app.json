@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "demo-drm-video",
+    "slug": "demo-drm-video",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "demo-drm-video"
+}
