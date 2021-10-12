@@ -20,7 +20,7 @@ export default function VideoJS(props) {
       if (!videoElement) return;
 
       let player = playerRef.current = videojs(videoElement, options, () => {
-        console.log("player is ready");
+        console.log("videojs player is ready");
         onReady && onReady(player);
       });
       player.eme();
