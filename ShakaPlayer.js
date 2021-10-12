@@ -16,6 +16,26 @@ export default function ShakaPlayer(props) {
     let player = new shaka.Player(videoRef.current);
     let ui = new shaka.ui.Overlay(player, uiRef.current, videoRef.current);
 
+    let uiConfig = {
+      enableKeyboardPlaybackControls: true,
+      controlPanelElements: [
+        'play_pause',
+        'time_and_duration',
+        'loop',
+        'mute',
+        'volume',
+        'spacer',
+        'cast',
+        'fullscreen',
+        'overflow_menu',
+      ],
+      'overflowMenuButtons': [
+        'captions',
+        'quality',
+        'playback_rate',
+      ],
+    };
+    ui.configure(uiConfig);
     ui.getControls()
 
     player.addEventListener('error', onError);
