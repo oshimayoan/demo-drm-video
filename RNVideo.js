@@ -1,6 +1,8 @@
-import React, { useRef, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View, Text, Button } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, TouchableOpacity, View, Text, Button, useWindowDimensions} from 'react-native'
 import Video, { DRMType } from 'react-native-video';
+import * as ScreenOrientation from 'expo-screen-orientation';
+import Orientation from 'react-native-orientation-locker';
 
 export default function Player(props) {
   let { isIVQVisible } = props;
@@ -11,11 +13,22 @@ export default function Player(props) {
   let [isFullscreen, setFullscreen] = useState(false);
 
   let onPlayerPress = () => setPlaying(s => !s);
+
+  let onFullscreen = async () => {
+    if (isFullscreen) {
+      setFullscreen(false);
+      Orientation.lockToPortrait();
+      return;
+    }
+
+    setFullscreen(true);
+    Orientation.lockToLandscape();
+  }
   
   let onBuffer = () => console.log('video is buffering');
 
   let onError = (e) => console.error('video is catching', e);
-  
+
   return (
     <>
       <TouchableOpacity activeOpacity={0.95} onPress={onPlayerPress}>
@@ -34,17 +47,18 @@ export default function Player(props) {
           resizeMode="contain"
           onBuffer={onBuffer}
           onError={onError}
-          style={styles.player}
+          style={isFullscreen ? styles.fullscreenPlayer : styles.player}
         />
       </TouchableOpacity>
       <Button
         title={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
-        onPress={() => {
-          isFullscreen
-            ? playerRef?.current?.dismissFullscreenPlayer()
-            : playerRef?.current?.presentFullscreenPlayer();
-          setFullscreen(!isFullscreen);
-        }}
+        onPress={onFullscreen}
+        // onPress={() => {
+        //   isFullscreen
+        //     ? playerRef?.current?.dismissFullscreenPlayer()
+        //     : playerRef?.current?.presentFullscreenPlayer();
+        //   setFullscreen(!isFullscreen);
+        // }}
       />
       {isIVQVisible && <View style={styles.ivq}>
         <Text>Howdy world!</Text>
@@ -59,6 +73,13 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     height: 200,
     backgroundColor: 'black',
+  },
+  fullscreenPlayer: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
   },
   ivq: {
     backgroundColor: 'skyblue', 
